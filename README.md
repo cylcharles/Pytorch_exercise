@@ -28,7 +28,7 @@ class Net(nn.Module):
 ## Transfer Learning with ResNet18 on ImageNet
 使用Pre-trained的ResNet進行遷移訓練，資料集使用10種類別的CIFAR10資料集訓練fine tune。
 基於Pre-trained的Resnet，進行Transfer
-Learning，也就是使用已經訓練過且效果不錯的模型，我們再準備一份新的資料集讓模型從已知學習未知數具，效果會更好，目前只訓練5個Epochs，Accuracy就達到91%，相較於自建的3層CNN網路，訓練50個Epochs，準確度只有59%。
+Learning，也就是使用已經訓練過且效果不錯的模型，我們再準備一份新的資料集讓模型從已知學習未知數具，效果會更好，目前只訓練5個Epochs，Accuracy就達到91%，相較自建的3層CNN網路，訓練50個Epochs的結果，準確度只有59%。
 
 * 這邊使用ResNet-18(Residual Network)殘差網路，載入Pre-trained on ImageNet的模型。
 ```
