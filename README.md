@@ -2,13 +2,45 @@
 
 Using Pytorch to do exercise.
 
-## CNN with 3 Layers
-建立3層卷積神經網路，使用10種類別的CIFAR10資料集訓練。
+## CNN on CIFAR10
+建立卷積神經網路，使用10種類別的CIFAR10資料集訓練，目的是為了比較使用相同數據集，Trainsfer Learning和手刻神經網路從零開始訓練的差異，程式碼在CNN_CIFAR10.ipynb。
+```
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
+
+    def forward(self, x):
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 16 * 5 * 5)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+```
 
 ## Transfer Learning with ResNet18 on ImageNet
 使用Pre-trained的ResNet進行遷移訓練，資料集使用10種類別的CIFAR10資料集訓練fine tune。
-基於Pre-trained的Resnet18 on ImageNet Dataset，進行Transfer
-Learning只訓練5個Epochs，Accuracy就達到91%，相較於自建的3層CNN網路，訓練50個Epochs，準確度只有59%。
+基於Pre-trained的Resnet，進行Transfer
+Learning，也就是使用已經訓練過且效果不錯的模型，我們再準備一份新的資料集讓模型從已知學習未知數具，效果會更好，目前只訓練5個Epochs，Accuracy就達到91%，相較於自建的3層CNN網路，訓練50個Epochs，準確度只有59%。
+
+* 這邊使用ResNet-18(Residual Network)殘差網路，載入Pre-trained on ImageNet的模型。
+```
+model_ft = models.resnet18(pretrained = True)
+```
+* 載入後，要用CIFAR10資料集訓練，而CIFAR10類別總共10種，所以將最後一層fully connected改成10
+```
+num_ftrs = model_ft.fc.in_features
+
+#10 Class Number
+model_ft.fc = nn.Linear(num_ftrs, 10)
+```
 
 ## 補充資料
 ### Simple Backpropagation Conception
