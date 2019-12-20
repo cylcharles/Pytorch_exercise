@@ -41,7 +41,8 @@ num_ftrs = model_ft.fc.in_features
 #10 Class Number
 model_ft.fc = nn.Linear(num_ftrs, 10)
 ```
-
+## Object Detection - Mask RCNN
+Finetune pre-trained的Mask RCNN紀錄
 ## 補充資料
 ### Simple Backpropagation Conception
 這邊用簡單小範例幫自己紀錄反向傳播的基本概念，先假設一個很簡單的網路，進行前向傳播 :
